@@ -1,0 +1,171 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.dash{background:#f5f6f8;padding:16px;width:100%;min-height:600px}
+.topbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter-pill{display:flex;align-items:center;gap:5px;background:#fff;border:0.5px solid #d1d5db;border-radius:6px;padding:4px 10px;font-size:11px;color:#374151;font-weight:500}
+.filter-pill span{color:#6b7280;font-weight:400}
+.time-pill{display:flex;align-items:center;gap:5px;background:#fff;border:0.5px solid #d1d5db;border-radius:6px;padding:4px 10px;font-size:11px;color:#374151;margin-left:auto}
+.tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:0.5px solid transparent;color:#6b7280;background:transparent}
+.tab.active{background:#fff;border-color:#d1d5db;color:#111827}
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.metric{background:#fff;border:0.5px solid #e5e7eb;border-radius:8px;padding:12px 16px}
+.metric-label{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.metric-value{font-size:22px;font-weight:500;color:#111827;line-height:1}
+.metric-sub{font-size:11px;color:#6b7280;margin-top:3px}
+.metric-up{color:#059669}.metric-down{color:#dc2626}
+.panels-row{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px}
+.panels-row2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.panel{background:#fff;border:0.5px solid #e5e7eb;border-radius:8px;padding:14px}
+.panel-title{font-size:11px;font-weight:500;color:#374151;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.panel-title i{font-size:13px;color:#9ca3af}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#6b7280}
+.leg-dot{width:8px;height:8px;border-radius:2px}
+.alert-badge{font-size:9px;background:#fef3c7;color:#92400e;border-radius:4px;padding:2px 6px;margin-left:auto;font-weight:500}
+.error-badge{font-size:9px;background:#fee2e2;color:#991b1b;border-radius:4px;padding:2px 6px;margin-left:auto;font-weight:500}
+.donut-wrap{display:flex;align-items:center;gap:16px}
+.donut-legend{flex:1;min-width:0}
+.donut-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid #f3f4f6;font-size:11px}
+.donut-row:last-child{border-bottom:none}
+.donut-name{display:flex;align-items:center;gap:5px;color:#374151}
+.donut-val{color:#6b7280;font-weight:500}
+.donut-pct{color:#111827;font-weight:600;font-size:11px;min-width:30px;text-align:right}
+</style>
+<div class="dash">
+  <div class="topbar">
+    <div class="filter-pill"><i class="ti ti-building" aria-hidden="true"></i> Tenant <span>All</span></div>
+    <div class="filter-pill"><i class="ti ti-brain" aria-hidden="true"></i> Model <span>All</span></div>
+    <div class="filter-pill"><i class="ti ti-server" aria-hidden="true"></i> Environment <span>dev</span></div>
+    <div class="time-pill"><i class="ti ti-clock" aria-hidden="true"></i> Last 6 hours &nbsp;<i class="ti ti-refresh" aria-hidden="true"></i> 30s</div>
+  </div>
+  <div class="tabs">
+    <div class="tab active">Request & Traffic</div>
+    <div class="tab">Traffic Analytics</div>
+    <div class="tab">Latency</div>
+    <div class="tab">Cost & Usage</div>
+    <div class="tab">Model Quality</div>
+    <div class="tab">Safety & Security</div>
+    <div class="tab">Infrastructure</div>
+    <div class="tab">Token & Context</div>
+    <div class="tab">User Observability</div>
+  </div>
+  <div class="metrics-row">
+    <div class="metric">
+      <div class="metric-label">Total Requests</div>
+      <div class="metric-value">56K</div>
+      <div class="metric-sub"><span class="metric-up">↑ 8.2%</span> vs prev period</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Requests / min</div>
+      <div class="metric-value">195.6</div>
+      <div class="metric-sub"><span class="metric-up">↑ 3.1%</span> trending up</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Avg Error Rate</div>
+      <div class="metric-value">4.2%</div>
+      <div class="metric-sub"><span class="metric-down">↑ 1.4%</span> spike at 14:30</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Active Sessions</div>
+      <div class="metric-value">—</div>
+      <div class="metric-sub" style="color:#f59e0b">No data available</div>
+    </div>
+  </div>
+  <div class="panels-row">
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-activity" aria-hidden="true"></i> RPM by Model &nbsp;<span class="alert-badge">Live</span></div>
+      <div style="position:relative;height:160px"><canvas id="rpm" role="img" aria-label="RPM by model over time, line chart">RPM trends for 6 models over last 6 hours.</canvas></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#6366f1"></div>claude-sonnet-4-5</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#10b981"></div>claude-haiku-3-5</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>claude-opus-4-6</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#3b82f6"></div>gemini-1.5-flash</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>gpt-4o</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#8b5cf6"></div>gpt-4o-mini</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Error Rate by Model <span class="error-badge">Spikes</span></div>
+      <div style="position:relative;height:160px"><canvas id="err" role="img" aria-label="Error rate by model, area chart">Error rate spikes for models, peak ~25% at 14:30.</canvas></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>gpt-4o <span style="font-weight:600;color:#ef4444;margin-left:2px">25% peak</span></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#6366f1"></div>claude-sonnet</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#10b981"></div>others</div>
+      </div>
+    </div>
+  </div>
+  <div class="panels-row2">
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-chart-donut" aria-hidden="true"></i> Provider Distribution</div>
+      <div class="donut-wrap">
+        <canvas id="prov" width="90" height="90" role="img" aria-label="Provider distribution donut chart">Anthropic 52%, OpenAI 27%, Google 21%</canvas>
+        <div class="donut-legend">
+          <div class="donut-row"><span class="donut-name"><span class="leg-dot" style="background:#6366f1;border-radius:50%"></span>Anthropic</span><span class="donut-val">6.16K</span><span class="donut-pct">52%</span></div>
+          <div class="donut-row"><span class="donut-name"><span class="leg-dot" style="background:#10b981;border-radius:50%"></span>OpenAI</span><span class="donut-val">3.19K</span><span class="donut-pct">27%</span></div>
+          <div class="donut-row"><span class="donut-name"><span class="leg-dot" style="background:#f59e0b;border-radius:50%"></span>Google</span><span class="donut-val">2.50K</span><span class="donut-pct">21%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-chart-donut" aria-hidden="true"></i> Model Distribution (1h)</div>
+      <div class="donut-wrap">
+        <canvas id="modl" width="90" height="90" role="img" aria-label="Model distribution last 1 hour donut">claude-sonnet-4-5 41%, gemini 21%, gpt-4o-mini 17%, claude-haiku 11%, gpt-4o 10%</canvas>
+        <div class="donut-legend">
+          <div class="donut-row"><span class="donut-name"><span class="leg-dot" style="background:#6366f1;border-radius:50%"></span>claude-sonnet-4-5</span><span class="donut-pct">41%</span></div>
+          <div class="donut-row"><span class="donut-name"><span class="leg-dot" style="background:#3b82f6;border-radius:50%"></span>gemini-1.5-flash</span><span class="donut-pct">21%</span></div>
+          <div class="donut-row"><span class="donut-name"><span class="leg-dot" style="background:#10b981;border-radius:50%"></span>gpt-4o-mini</span><span class="donut-pct">17%</span></div>
+          <div class="donut-row"><span class="donut-name"><span class="leg-dot" style="background:#f59e0b;border-radius:50%"></span>claude-haiku-3-5</span><span class="donut-pct">11%</span></div>
+          <div class="donut-row"><span class="donut-name"><span class="leg-dot" style="background:#ef4444;border-radius:50%"></span>gpt-4o</span><span class="donut-pct">10%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> Requests by Model (1h)</div>
+      <div style="position:relative;height:130px"><canvas id="barmod" role="img" aria-label="Horizontal bar chart of requests per model last hour">Model request volume comparison.</canvas></div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const labels=['11:45','12:15','12:45','13:15','13:45','14:15','14:45','15:15','15:45','16:15','16:45','17:15','17:30'];
+function rnd(base,amp,len){return Array.from({length:len},(_,i)=>Math.round(base+Math.sin(i*0.7+Math.random()*0.5)*amp+Math.random()*amp*0.4))}
+new Chart(document.getElementById('rpm'),{
+  type:'line',
+  data:{labels,datasets:[
+    {label:'claude-sonnet-4-5',data:rnd(90,20,13),borderColor:'#6366f1',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[]},
+    {label:'claude-haiku-3-5',data:rnd(60,15,13),borderColor:'#10b981',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[4,2]},
+    {label:'claude-opus-4-6',data:rnd(35,10,13),borderColor:'#f59e0b',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[2,2]},
+    {label:'gemini-1.5-flash',data:rnd(50,18,13),borderColor:'#3b82f6',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[6,2]},
+    {label:'gpt-4o',data:rnd(25,8,13),borderColor:'#ef4444',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[1,2]},
+    {label:'gpt-4o-mini',data:rnd(45,12,13),borderColor:'#8b5cf6',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[8,3]},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:'#9ca3af',maxTicksLimit:7},grid:{color:'#f3f4f6'}},y:{ticks:{font:{size:9},color:'#9ca3af'},grid:{color:'#f3f4f6'},title:{display:true,text:'r/min',font:{size:9},color:'#9ca3af'}}}}
+});
+new Chart(document.getElementById('err'),{
+  type:'line',
+  data:{labels,datasets:[
+    {label:'gpt-4o',data:[1,2,0,0,1,25,3,1,12,2,0,8,1],borderColor:'#ef4444',borderWidth:1.5,pointRadius:0,tension:0.3,fill:true,backgroundColor:'rgba(239,68,68,0.06)',borderDash:[]},
+    {label:'claude-sonnet',data:[0,1,0,1,0,3,1,2,5,1,0,2,1],borderColor:'#6366f1',borderWidth:1.5,pointRadius:0,tension:0.3,fill:true,backgroundColor:'rgba(99,102,241,0.04)',borderDash:[4,2]},
+    {label:'others',data:[0,0,1,0,0,1,0,0,2,1,0,1,0],borderColor:'#10b981',borderWidth:1.5,pointRadius:0,tension:0.3,fill:true,backgroundColor:'rgba(16,185,129,0.04)',borderDash:[2,2]},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:'#9ca3af',maxTicksLimit:7},grid:{color:'#f3f4f6'}},y:{ticks:{font:{size:9},color:'#9ca3af',callback:v=>v+'%'},grid:{color:'#f3f4f6'},max:30}}}
+});
+new Chart(document.getElementById('prov'),{
+  type:'doughnut',
+  data:{labels:['Anthropic','OpenAI','Google'],datasets:[{data:[52,27,21],backgroundColor:['#6366f1','#10b981','#f59e0b'],borderWidth:0,hoverOffset:3}]},
+  options:{responsive:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.parsed+'%'}}}}
+});
+new Chart(document.getElementById('modl'),{
+  type:'doughnut',
+  data:{labels:['claude-sonnet-4-5','gemini-1.5-flash','gpt-4o-mini','claude-haiku-3-5','gpt-4o'],datasets:[{data:[41,21,17,11,10],backgroundColor:['#6366f1','#3b82f6','#10b981','#f59e0b','#ef4444'],borderWidth:0,hoverOffset:3}]},
+  options:{responsive:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.parsed+'%'}}}}
+});
+new Chart(document.getElementById('barmod'),{
+  type:'bar',
+  data:{labels:['claude-sonnet-4-5','gemini-1.5-flash','gpt-4o-mini','claude-haiku-3-5','gpt-4o'],datasets:[{data:[4830,2500,1960,1330,1230],backgroundColor:['#6366f1','#3b82f6','#10b981','#f59e0b','#ef4444'],borderRadius:3,borderWidth:0}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:'#9ca3af',callback:v=>v>=1000?Math.round(v/1000)+'K':v},grid:{color:'#f3f4f6'}},y:{ticks:{font:{size:9},color:'#374151'},grid:{display:false}}}}
+});
+</script>

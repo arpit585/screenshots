@@ -1,0 +1,233 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.dash{
+  background:linear-gradient(135deg,#e8f4ff 0%,#f0e8ff 30%,#fce8f4 55%,#e8fff6 80%,#fff8e8 100%);
+  padding:18px;width:100%;min-height:700px;font-family:system-ui,sans-serif;position:relative;overflow:hidden
+}
+.dash::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 55% 45% at 15% 15%,rgba(139,92,246,0.13) 0%,transparent 65%),
+    radial-gradient(ellipse 45% 55% at 85% 75%,rgba(6,182,212,0.1) 0%,transparent 65%),
+    radial-gradient(ellipse 40% 35% at 70% 10%,rgba(236,72,153,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse 35% 40% at 30% 85%,rgba(16,185,129,0.07) 0%,transparent 55%);
+  pointer-events:none
+}
+.glass{
+  background:rgba(255,255,255,0.55);
+  border:1px solid rgba(255,255,255,0.85);
+  border-radius:16px;
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  box-shadow:0 2px 24px rgba(100,80,200,0.08),0 1px 0 rgba(255,255,255,0.9) inset,0 -1px 0 rgba(100,80,200,0.06) inset
+}
+.glass-strong{
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(255,255,255,0.95);
+  border-radius:16px;
+  backdrop-filter:blur(28px) saturate(200%);
+  -webkit-backdrop-filter:blur(28px) saturate(200%);
+  box-shadow:0 4px 32px rgba(100,80,200,0.1),0 1.5px 0 rgba(255,255,255,1) inset,0 -1px 0 rgba(100,80,200,0.05) inset
+}
+.topbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,0.6);
+  border:1px solid rgba(255,255,255,0.9);
+  border-radius:20px;padding:5px 12px;font-size:11px;
+  color:#374151;font-weight:500;
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 4px rgba(100,80,200,0.08)
+}
+.pill i{font-size:12px;color:#9ca3af}
+.pill span{color:#9ca3af}
+.time-pill{
+  display:flex;align-items:center;gap:6px;margin-left:auto;
+  background:rgba(139,92,246,0.12);
+  border:1px solid rgba(139,92,246,0.3);
+  border-radius:20px;padding:5px 12px;font-size:11px;color:#6d28d9;
+  backdrop-filter:blur(12px);font-weight:500
+}
+.tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap;position:relative;z-index:1}
+.tab{
+  padding:5px 11px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;
+  color:#6b7280;background:transparent;border:1px solid transparent
+}
+.tab.active{
+  background:rgba(255,255,255,0.7);
+  border-color:rgba(255,255,255,0.95);
+  color:#1f2937;
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 8px rgba(100,80,200,0.1),inset 0 1px 0 rgba(255,255,255,0.9)
+}
+.metrics-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px;position:relative;z-index:1}
+.metric{padding:14px 16px;position:relative;overflow:hidden}
+.metric::after{
+  content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,1),transparent)
+}
+.m-label{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.m-value{font-size:24px;font-weight:300;color:#111827;line-height:1;letter-spacing:-0.5px}
+.m-sub{font-size:10px;margin-top:4px}
+.m-up{color:#059669}.m-down{color:#dc2626}.m-warn{color:#d97706}
+.panels-row{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px;position:relative;z-index:1}
+.panels-row2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;position:relative;z-index:1}
+.panel{padding:14px;position:relative;overflow:hidden}
+.panel::after{
+  content:'';position:absolute;top:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,1),transparent)
+}
+.p-title{font-size:10px;font-weight:500;color:#6b7280;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.badge{font-size:9px;border-radius:10px;padding:2px 7px;font-weight:600;margin-left:auto}
+.badge-live{background:rgba(5,150,105,0.12);color:#065f46;border:1px solid rgba(5,150,105,0.2)}
+.badge-warn{background:rgba(220,38,38,0.1);color:#991b1b;border:1px solid rgba(220,38,38,0.18)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#6b7280}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.donut-wrap{display:flex;align-items:center;gap:14px}
+.donut-legend{flex:1;min-width:0}
+.d-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(100,80,200,0.07);font-size:11px}
+.d-row:last-child{border-bottom:none}
+.d-name{display:flex;align-items:center;gap:5px;color:#374151}
+.d-pct{color:#111827;font-weight:500}
+.glow-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+</style>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">AI Telemetry dashboard in liquid glass light theme</h2>
+
+<div class="dash">
+  <div class="topbar">
+    <div class="pill"><i class="ti ti-building" aria-hidden="true"></i> Tenant <span>All</span></div>
+    <div class="pill"><i class="ti ti-brain" aria-hidden="true"></i> Model <span>All</span></div>
+    <div class="pill"><i class="ti ti-server" aria-hidden="true"></i> Env <span>dev</span></div>
+    <div class="time-pill"><i class="ti ti-clock" aria-hidden="true"></i> Last 6 hours &nbsp;<i class="ti ti-refresh" aria-hidden="true"></i> 30s</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active">Request &amp; Traffic</div>
+    <div class="tab">Traffic Analytics</div>
+    <div class="tab">Latency</div>
+    <div class="tab">Cost &amp; Usage</div>
+    <div class="tab">Model Quality</div>
+    <div class="tab">Safety &amp; Security</div>
+    <div class="tab">Infrastructure</div>
+    <div class="tab">Token &amp; Context</div>
+    <div class="tab">User Observability</div>
+  </div>
+
+  <div class="metrics-row">
+    <div class="metric glass-strong">
+      <div class="m-label">Total Requests</div>
+      <div class="m-value">56K</div>
+      <div class="m-sub"><span class="m-up">↑ 8.2%</span> <span style="color:#9ca3af">vs prev period</span></div>
+    </div>
+    <div class="metric glass-strong">
+      <div class="m-label">Req / min</div>
+      <div class="m-value">195.6</div>
+      <div class="m-sub"><span class="m-up">↑ 3.1%</span> <span style="color:#9ca3af">trending up</span></div>
+    </div>
+    <div class="metric glass-strong">
+      <div class="m-label">Avg Error Rate</div>
+      <div class="m-value">4.2%</div>
+      <div class="m-sub"><span class="m-down">↑ 1.4%</span> <span style="color:#9ca3af">spike 14:30</span></div>
+    </div>
+    <div class="metric glass-strong">
+      <div class="m-label">Active Sessions</div>
+      <div class="m-value" style="font-size:18px;color:#d1d5db">—</div>
+      <div class="m-sub m-warn">No data available</div>
+    </div>
+  </div>
+
+  <div class="panels-row">
+    <div class="panel glass">
+      <div class="p-title"><i class="ti ti-activity" aria-hidden="true"></i> RPM by Model <span class="badge badge-live">Live</span></div>
+      <div style="position:relative;height:155px"><canvas id="rpm" role="img" aria-label="Line chart of requests per minute by model">RPM by model over 6 hours.</canvas></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#7c3aed"></div>claude-sonnet-4-5</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#0891b2"></div>claude-haiku-3-5</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#d97706"></div>claude-opus-4-6</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#0284c7"></div>gemini-1.5-flash</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#dc2626"></div>gpt-4o</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#db2777"></div>gpt-4o-mini</div>
+      </div>
+    </div>
+    <div class="panel glass">
+      <div class="p-title"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Error Rate <span class="badge badge-warn">Spikes</span></div>
+      <div style="position:relative;height:155px"><canvas id="err" role="img" aria-label="Area chart of error rates, peak 25% gpt-4o at 14:30">Error spike to 25% at 14:30.</canvas></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#dc2626"></div>gpt-4o <strong style="color:#dc2626;font-size:10px">25%</strong></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#7c3aed"></div>claude-sonnet</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#059669"></div>others</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panels-row2">
+    <div class="panel glass">
+      <div class="p-title"><i class="ti ti-chart-donut" aria-hidden="true"></i> Provider Distribution</div>
+      <div class="donut-wrap">
+        <canvas id="prov" width="85" height="85" role="img" aria-label="Donut: Anthropic 52%, OpenAI 27%, Google 21%">Anthropic 52%, OpenAI 27%, Google 21%</canvas>
+        <div class="donut-legend">
+          <div class="d-row"><span class="d-name"><span class="glow-dot" style="background:#7c3aed"></span>Anthropic</span><span class="d-pct">52%</span></div>
+          <div class="d-row"><span class="d-name"><span class="glow-dot" style="background:#059669"></span>OpenAI</span><span class="d-pct">27%</span></div>
+          <div class="d-row"><span class="d-name"><span class="glow-dot" style="background:#d97706"></span>Google</span><span class="d-pct">21%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel glass">
+      <div class="p-title"><i class="ti ti-chart-donut" aria-hidden="true"></i> Model Distribution (1h)</div>
+      <div class="donut-wrap">
+        <canvas id="modl" width="85" height="85" role="img" aria-label="Donut: claude-sonnet 41%, gemini 21%, gpt-4o-mini 17%, haiku 11%, gpt-4o 10%">Model share last hour.</canvas>
+        <div class="donut-legend">
+          <div class="d-row"><span class="d-name"><span class="glow-dot" style="background:#7c3aed"></span>claude-sonnet-4-5</span><span class="d-pct">41%</span></div>
+          <div class="d-row"><span class="d-name"><span class="glow-dot" style="background:#0284c7"></span>gemini-1.5-flash</span><span class="d-pct">21%</span></div>
+          <div class="d-row"><span class="d-name"><span class="glow-dot" style="background:#059669"></span>gpt-4o-mini</span><span class="d-pct">17%</span></div>
+          <div class="d-row"><span class="d-name"><span class="glow-dot" style="background:#d97706"></span>claude-haiku-3-5</span><span class="d-pct">11%</span></div>
+          <div class="d-row"><span class="d-name"><span class="glow-dot" style="background:#dc2626"></span>gpt-4o</span><span class="d-pct">10%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel glass">
+      <div class="p-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> Requests by Model (1h)</div>
+      <div style="position:relative;height:130px"><canvas id="barmod" role="img" aria-label="Horizontal bar: model request volumes last hour">Model volumes.</canvas></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const lbls=['11:45','12:15','12:45','13:15','13:45','14:15','14:45','15:15','15:45','16:15','16:45','17:15','17:30'];
+function rnd(b,a,l){return Array.from({length:l},(_,i)=>Math.round(b+Math.sin(i*0.7+i*0.1)*a+Math.random()*a*0.3))}
+const gc='rgba(100,80,160,0.07)',tc='#9ca3af';
+const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+  x:{ticks:{font:{size:9},color:tc,maxTicksLimit:6},grid:{color:gc},border:{color:'transparent'}},
+  y:{ticks:{font:{size:9},color:tc},grid:{color:gc},border:{color:'transparent'}}
+}};
+new Chart(document.getElementById('rpm'),{type:'line',data:{labels:lbls,datasets:[
+  {data:rnd(90,20,13),borderColor:'#7c3aed',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[]},
+  {data:rnd(60,15,13),borderColor:'#0891b2',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[4,2]},
+  {data:rnd(35,10,13),borderColor:'#d97706',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[2,2]},
+  {data:rnd(55,18,13),borderColor:'#0284c7',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[6,2]},
+  {data:rnd(25,8,13),borderColor:'#dc2626',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[1,2]},
+  {data:rnd(45,12,13),borderColor:'#db2777',borderWidth:1.5,pointRadius:0,tension:0.4,fill:false,borderDash:[8,3]},
+]},options:JSON.parse(JSON.stringify(base))});
+
+new Chart(document.getElementById('err'),{type:'line',data:{labels:lbls,datasets:[
+  {data:[1,2,0,0,1,25,3,1,12,2,0,8,1],borderColor:'#dc2626',borderWidth:1.5,pointRadius:0,tension:0.3,fill:true,backgroundColor:'rgba(220,38,38,0.07)',borderDash:[]},
+  {data:[0,1,0,1,0,3,1,2,5,1,0,2,1],borderColor:'#7c3aed',borderWidth:1.5,pointRadius:0,tension:0.3,fill:true,backgroundColor:'rgba(124,58,237,0.05)',borderDash:[4,2]},
+  {data:[0,0,1,0,0,1,0,0,2,1,0,1,0],borderColor:'#059669',borderWidth:1.5,pointRadius:0,tension:0.3,fill:true,backgroundColor:'rgba(5,150,105,0.04)',borderDash:[2,2]},
+]},options:{...JSON.parse(JSON.stringify(base)),scales:{x:{ticks:{font:{size:9},color:tc,maxTicksLimit:6},grid:{color:gc},border:{color:'transparent'}},y:{max:30,ticks:{font:{size:9},color:tc,callback:v=>v+'%'},grid:{color:gc},border:{color:'transparent'}}}}});
+
+const dOpts={responsive:false,cutout:'70%',plugins:{legend:{display:false}},elements:{arc:{borderWidth:2,borderColor:'rgba(255,255,255,0.8)'}}};
+new Chart(document.getElementById('prov'),{type:'doughnut',data:{labels:['Anthropic','OpenAI','Google'],datasets:[{data:[52,27,21],backgroundColor:['#7c3aed','#059669','#d97706'],hoverOffset:4}]},options:dOpts});
+new Chart(document.getElementById('modl'),{type:'doughnut',data:{labels:['claude-sonnet-4-5','gemini-1.5-flash','gpt-4o-mini','claude-haiku-3-5','gpt-4o'],datasets:[{data:[41,21,17,11,10],backgroundColor:['#7c3aed','#0284c7','#059669','#d97706','#dc2626'],hoverOffset:4}]},options:dOpts});
+
+new Chart(document.getElementById('barmod'),{type:'bar',data:{
+  labels:['claude-sonnet','gemini-flash','gpt-4o-mini','claude-haiku','gpt-4o'],
+  datasets:[{data:[4830,2500,1960,1330,1230],backgroundColor:['rgba(124,58,237,0.25)','rgba(2,132,199,0.25)','rgba(5,150,105,0.25)','rgba(217,119,6,0.25)','rgba(220,38,38,0.25)'],borderColor:['#7c3aed','#0284c7','#059669','#d97706','#dc2626'],borderWidth:1,borderRadius:4}]
+},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+  x:{ticks:{font:{size:9},color:tc,callback:v=>v>=1000?Math.round(v/1000)+'K':v},grid:{color:gc},border:{color:'transparent'}},
+  y:{ticks:{font:{size:9},color:'#374151'},grid:{display:false},border:{color:'transparent'}}
+}}});
+</script>
